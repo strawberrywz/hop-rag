@@ -1,4 +1,4 @@
-from typing import List, Optional, Iterator
+from typing import List, Optional
 from langchain.schema import Document
 from langchain.document_loaders.base import BaseLoader
 import boto3
