@@ -1,10 +1,10 @@
-from fastapi import APIRouter, Query, HTTPException, WebSocket, Request, Form
+from fastapi import APIRouter, Query, WebSocket, Request, Form
 from fastapi.responses import HTMLResponse
 from app.core.chat_model import ChatModel
 from fastapi.templating import Jinja2Templates
 
 router = APIRouter()
-chat_model = ChatModel() #"TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+chat_model = ChatModel() 
 templates = Jinja2Templates(directory="app/templates")
 
 @router.get("/", response_class=HTMLResponse)
@@ -47,3 +47,19 @@ async def chat_submit(
 @router.get("/health")
 async def health():
     return {"status": "ok"}
+
+@router.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    try:
+        while True:
+            user_input = await websocket.receive_text()
+            response = chat_model.generate_response(user_input)
+            await websocket.send_json({
+                "user": user_input,
+                "bot": response
+            })
+    except Exception as e:
+        await websocket.send_json({
+            "error": str(e)
+        })

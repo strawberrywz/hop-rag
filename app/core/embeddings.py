@@ -7,12 +7,11 @@ load_dotenv()
 
 class Embeddings:
   def __init__(self,
-               model_loader, 
-               model_name: str = "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
-               embedding_model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
+               model_loader 
+               ):
     self.model_loader = model_loader
-    self.embeddings = self.model_loader.load_embedding_model(embedding_model_name)
-    self.model = self.model_loader.load_model(model_name)
+    self.embeddings = self.model_loader.load_embedding_model()
+    self.model = self.model_loader.load_model()
         
   def load_embeddings(self, documents):
     try:

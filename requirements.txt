@@ -22,3 +22,10 @@ accelerate
 chromadb
 websockets
 python-multipart
+boto3
+PyPDF2
+pycryptodome
+unidecode
+pytesseract
+pdf2image
+pillow
