@@ -74,3 +74,4 @@ class ChatModel:
             
     def reload_documents(self):
         self._retriever = None
+        

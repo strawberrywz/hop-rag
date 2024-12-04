@@ -212,6 +212,7 @@
     }
   }
 </style>
+
 {% endblock %} {% block content %}
 <div class="chat-container">
   <div class="chat-header">
@@ -256,7 +257,6 @@
     const typingIndicator = document.getElementById("typingIndicator");
 
     ws.onerror = function () {
-      // Instead of showing a traditional form, we could show an error message
       chatHistory.innerHTML +=
         '<div class="alert alert-danger">Connection failed. Please refresh the page.</div>';
     };
@@ -293,7 +293,7 @@
 
       chatHistory.scrollTop = chatHistory.scrollHeight;
     }
-
+    
     function showTypingIndicator() {
       typingIndicator.classList.add("visible");
       chatHistory.scrollTop = chatHistory.scrollHeight;
