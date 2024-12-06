@@ -2,26 +2,20 @@ from langchain_community.llms import HuggingFacePipeline
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
 from langchain_community.embeddings import HuggingFaceEmbeddings
 import torch
-from typing import List, Optional
-from langchain.schema import Document
-import os
+
 
 class ModelLoader:
     def __init__(self):
-        """Initialize the Flan-T5-Small model and tokenizer"""
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        project_root = os.path.dirname(os.path.dirname(current_dir))
-        self.model_path = os.path.join(project_root, "model")
+        self.model_path = self.model_path = "sshleifer/distilbart-cnn-6-6"
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
-        self.base_model = AutoModelForSeq2SeqLM.from_pretrained(self.model_path)
+        self.base_model = AutoModelForSeq2SeqLM.from_pretrained(self.model_path) 
         self.base_model.to(self.device)
 
     def load_model(self):
         """Load the Flan-T5 model with LangChain integration"""
         pipe = pipeline(
-            "text2text-generation",
+            "summarization",
             model=self.base_model,
             tokenizer=self.tokenizer,
             max_length=512,

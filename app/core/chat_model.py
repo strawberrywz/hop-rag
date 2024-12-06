@@ -53,7 +53,10 @@ class ChatModel:
             
             docs = self.retriever.get_relevant_documents(query)
             retrieval_time = time.time() - start_time
-            
+            for i, doc in enumerate(docs):
+                print(f"\nDocument {i}:")
+                print(doc.page_content[:200] + "...")
+                
             chain = (
                 {"context": lambda _: "\n\n".join(d.page_content for d in docs),
                 "question": RunnablePassthrough()}
@@ -68,6 +71,7 @@ class ChatModel:
             print(f"Document retrieval took {retrieval_time:.2f} seconds")
             print(f"Total response time: {total_time:.2f} seconds")
             
+            print("Model response: ", response)
             return response
         except Exception as e:
             return f"Error generating response: {str(e)}"
