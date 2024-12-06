@@ -1,31 +1,33 @@
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, pipeline
 from langchain_community.llms import HuggingFacePipeline
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import FAISS
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.document_loaders import S3FileLoader
-from langchain.chains import RetrievalQA
 import torch
-from typing import Optional, List, Dict
-import os
-from dotenv import load_dotenv
+
 
 class ModelLoader:
     def __init__(self):
-        load_dotenv()
-        self.api_key = os.getenv('OPENAI_API_KEY')
+        self.model_path = self.model_path = "sshleifer/distilbart-cnn-6-6"
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
+        self.base_model = AutoModelForSeq2SeqLM.from_pretrained(self.model_path) 
+        self.base_model.to(self.device)
 
     def load_model(self):
-        return ChatOpenAI(
-            model_name="gpt-3.5-turbo",
+        """Load the Flan-T5 model with LangChain integration"""
+        pipe = pipeline(
+            "summarization",
+            model=self.base_model,
+            tokenizer=self.tokenizer,
+            max_length=512,
             temperature=0.1,
-            openai_api_key=self.api_key
-        )
-    
-    def load_embedding_model(self):
-        return OpenAIEmbeddings(
-            openai_api_key=self.api_key
+            device=self.device
         )
         
+        return HuggingFacePipeline(pipeline=pipe)
+    
+    def load_embedding_model(self):
+        """Load HuggingFace embeddings model"""
+        return HuggingFaceEmbeddings(
+            model_name="sentence-transformers/all-MiniLM-L6-v2",
+            model_kwargs={'device': self.device}
+        )

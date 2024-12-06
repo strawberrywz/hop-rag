@@ -1,5 +1,3 @@
-from langchain_openai import ChatOpenAI
-from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
 from dotenv import load_dotenv
 
