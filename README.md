@@ -1,5 +1,7 @@
 # Hopf Algebra Chat Application
 
+A FastAPI-based chat application using various language models.
+
 ## Quick Start
 
 1. Create virtual environment:
@@ -26,27 +28,51 @@ pip install -r requirements.txt
 python main.py
 ```
 
-4. Access FastAPI documentation:
-
-- Swagger UI: http://localhost:8000/docs
-
 ## API Endpoints
 
-Test the API via FastAPI's interactive docs at `/docs`:
+### Chat Endpoint
 
-POST `/`
+`POST /api/chat`
+
+Request body:
 
 ```json
 {
-  "query": "your question here"
+  "messages": [
+    {
+      "role": "user",
+      "content": "{\"input\": \"your message here\"}"
+    }
+  ]
 }
 ```
 
-## Models to consider
+Response:
 
-- TinyLlama/TinyLlama-1.1B-Chat-v1.0 (default)
-- Phi-1.5
-- Mistral-7B (or smaller quantized versions)
-- T5-small
-- BART-small
-- Flan-T5-small
+```json
+{
+  "response": "model response here"
+}
+```
+
+### Health Check
+
+`GET /`
+
+- Returns HTML template response
+- Access at: http://localhost:8000
+
+## Documentation
+
+- API docs: http://localhost:8000/docs
+- ReDoc: http://localhost:8000/redoc
+
+## Error Handling
+
+The API returns error messages in the format:
+
+```json
+{
+  "error": "error description"
+}
+```
