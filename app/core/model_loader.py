@@ -13,7 +13,7 @@ class ModelLoader:
         self.base_model.to(self.device)
 
     def load_model(self):
-        """Load the Flan-T5 model with LangChain integration"""
+        """Load the model with LangChain integration"""
         pipe = pipeline(
             "summarization",
             model=self.base_model,
