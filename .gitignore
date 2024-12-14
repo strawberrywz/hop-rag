@@ -1,4 +1,4 @@
-env/
+venv/
 model/
 __pycache__
 .env
