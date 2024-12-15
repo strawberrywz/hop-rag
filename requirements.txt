@@ -4,17 +4,11 @@ gunicorn
 pydantic==2.10.3
 httpx==0.28.1
 python-dotenv
-fastapi==0.115.6
-pydantic==2.10.3
-uvicorn[standard]
-gunicorn
 jinja2==3.1.4
-python-dotenv
 langchain==0.3.11
 langchain-community==0.3.11
 transformers
-torch
+torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
 sentence-transformers
 boto3==1.35.80
-httpx==0.28.1
 python-multipart
